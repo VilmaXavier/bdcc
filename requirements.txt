@@ -1,2 +1,7 @@
 streamlit
 numpy
+micropython
+pypy3
+cpython
+nuitka
+anaconda
