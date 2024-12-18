@@ -1,111 +1,105 @@
 import streamlit as st
-import time
-import multiprocessing
-import concurrent.futures
-import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
-def intro():
-    st.title("Python Flavors, Parallelization, and Big O Scaling")
+# Title of the app
+st.title("Assignment Documentation: Algorithm Performance")
+
+# Explanation of the assignment
+st.markdown("""
+This web app demonstrates the performance comparison between different Python implementations (CPython, PyPy, Jython) for two algorithms: 
+1. Fibonacci Sequence 
+2. Sieve of Eratosthenes
+
+The algorithms were benchmarked, and results were analyzed for both single-threaded and parallelized executions.
+""")
+
+# Section for Algorithm Selection
+st.sidebar.header("Select Algorithm for Benchmarking")
+algorithm = st.sidebar.radio(
+    "Choose an algorithm to view the performance comparison:",
+    ("Fibonacci Algorithm", "Sieve of Eratosthenes Algorithm")
+)
+
+# Section for Fibonacci Algorithm
+if algorithm == "Fibonacci Algorithm":
+    st.header("Fibonacci Algorithm")
+
+    # Display a brief explanation of the Fibonacci algorithm
     st.markdown("""
-    ## Part 1: Python Flavors
-    Python has several implementations or flavors, each optimized for different use cases:
-    - **CPython**: The default implementation, known for its extensive library support.
-    - **PyPy**: Focused on performance, featuring a Just-In-Time (JIT) compiler.
-    - **Jython**: Python for the Java Virtual Machine (JVM).
-    - **IronPython**: Python for the .NET framework.
-
-    ### Performance Bridge
-    PyPy often offers better performance for CPU-bound tasks because of its JIT compiler, whereas CPython is better for compatibility.
-
-    ### Experiment with Complex Programs
-    Below, you can test the performance of a complex CPU-bound program.
+    The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones. 
+    We benchmarked this algorithm in both single-threaded and parallelized modes to measure performance.
     """)
 
-# Function to simulate a CPU-bound task
-def cpu_bound_task(n):
-    total = 0
-    for i in range(1, n):
-        total += i * i
-    return total
+    # Display the benchmark result image (graph) for Fibonacci
+    st.image("fibonacci_benchmark.png", caption="Fibonacci Algorithm Performance Comparison")
 
-def part1():
-    st.header("Part 1: Performance Comparison")
-    n = st.number_input("Enter the range for computation (higher values increase complexity):", min_value=10000, max_value=10000000, value=100000)
-    if st.button("Run Test"):
-        st.write("Running task...")
-        start = time.time()
-        cpu_bound_task(n)
-        end = time.time()
-        st.write(f"Execution Time with CPython: {end - start:.4f} seconds")
-        st.markdown("Try PyPy for a comparison.")
+    # Placeholder for time results (to be added)
+    st.subheader("Execution Time Results")
+    st.image("fibonacci_time_results.png", caption="Fibonacci Time Results")
 
-
-def part2():
-    st.header("Part 2: Parallelization of Algorithms")
+    # Understanding of the results
+    st.subheader("Understanding the Results")
     st.markdown("""
-    Parallelization can significantly improve performance, especially for CPU-bound tasks.
+    The performance of the Fibonacci algorithm was evaluated for different values of `n`. The graph compares the execution 
+    times of single-threaded and parallelized Fibonacci calculations. From the graph, we can observe the impact of parallelization 
+    on reducing execution time for larger values of `n`.
+
+    **Key Observations:**
+    - Single-threaded execution shows an exponential increase in execution time as `n` increases.
+    - Parallelization helps to significantly reduce the execution time for larger values of `n`, showcasing the effectiveness of parallel processing.
     """)
 
-    def parallel_task(n):
-        total = 0
-        for i in range(n):
-            total += i * i
-        return total
-
-    n = st.number_input("Enter the range for computation in parallel (higher values increase complexity):", min_value=10000, max_value=10000000, value=100000)
-    workers = st.slider("Select the number of parallel workers:", 1, multiprocessing.cpu_count(), 2)
-
-    if st.button("Run Parallel Test"):
-        st.write("Running parallel task...")
-        data = [n // workers for _ in range(workers)]
-
-        start = time.time()
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            results = executor.map(parallel_task, data)
-        end = time.time()
-
-        st.write(f"Execution Time with {workers} workers: {end - start:.4f} seconds")
-
-
-def part3():
-    st.header("Part 3: Big O Notation and Parallelization")
+    # Conclusion for Fibonacci
+    st.subheader("Conclusion")
     st.markdown("""
-    ### Does Big O Notation Scale with Parallelization?
-    - Big O measures the asymptotic complexity of an algorithm, not actual performance.
-    - Parallelization can reduce the constants in execution time but doesn't change the fundamental Big O.
-
-    For example:
-    - An $O(n^2)$ algorithm remains $O(n^2)$ even if parallelized, though the actual runtime may reduce.
-    - Test this below.
+    In conclusion, the Fibonacci algorithm benefits from parallelization when calculating larger values of `n`. The parallel approach 
+    provides substantial performance improvements, making it more scalable for higher-order Fibonacci calculations.
     """)
 
-    def quadratic_algorithm(data):
-        results = []
-        for i in data:
-            for j in data:
-                results.append(i * j)
-        return results
+# Section for Sieve of Eratosthenes Algorithm
+elif algorithm == "Sieve of Eratosthenes Algorithm":
+    st.header("Sieve of Eratosthenes Algorithm")
 
-    n = st.number_input("Enter the size of the dataset (higher values increase complexity):", min_value=10, max_value=500, value=50)
-    data = np.arange(n)
+    # Display a brief explanation of the Sieve of Eratosthenes algorithm
+    st.markdown("""
+    The Sieve of Eratosthenes is an ancient algorithm used to find all prime numbers up to a given limit `n`. 
+    We benchmarked this algorithm in both single-threaded and parallelized modes to analyze performance.
+    """)
 
-    if st.button("Run Quadratic Algorithm"):
-        st.write("Running algorithm...")
-        start = time.time()
-        quadratic_algorithm(data)
-        end = time.time()
+    # Display the benchmark result image (graph) for Sieve of Eratosthenes
+    st.image("sieve_benchmark.png", caption="Sieve of Eratosthenes Algorithm Performance Comparison")
 
-        st.write(f"Execution Time (O(n^2)): {end - start:.4f} seconds")
+    # Placeholder for time results (to be added)
+    st.subheader("Execution Time Results")
+    st.image("sieve_time_results.png", caption="Sieve of Eratosthenes Time Results")
 
-# Streamlit App Layout
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Introduction", "Part 1", "Part 2", "Part 3"])
+    # Understanding of the results
+    st.subheader("Understanding the Results")
+    st.markdown("""
+    The performance of the Sieve of Eratosthenes algorithm was evaluated for different values of `n`. The graph compares 
+    the execution times of single-threaded and parallelized implementations. 
 
-if page == "Introduction":
-    intro()
-elif page == "Part 1":
-    part1()
-elif page == "Part 2":
-    part2()
-elif page == "Part 3":
-    part3()
+    **Key Observations:**
+    - Similar to the Fibonacci algorithm, the execution time for single-threaded increases with larger values of `n`.
+    - Parallelization significantly reduces the execution time for larger values, making the algorithm more efficient for large-scale prime number calculations.
+    """)
+
+    # Conclusion for Sieve of Eratosthenes
+    st.subheader("Conclusion")
+    st.markdown("""
+    The Sieve of Eratosthenes algorithm demonstrates significant performance gains through parallelization. 
+    For large `n`, parallel execution offers a much more scalable solution, which is crucial for efficiently handling larger datasets in real-world applications.
+    """)
+
+# Further Analysis and Results
+st.header("Further Analysis and Results")
+
+st.markdown("""
+1. **Performance Comparison**: 
+   The results show the time taken for both Fibonacci and Sieve of Eratosthenes algorithms with and without parallelization. 
+   
+2. **Algorithm Scalability**: 
+   The scalability analysis of both algorithms shows how parallelization improves execution time, especially for large input sizes.
+""")
+
