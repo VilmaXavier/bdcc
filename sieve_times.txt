@@ -1,0 +1,11 @@
+Results for Sieve of Eratosthenes with n=100000: 
+PyPy - Time: 0.0029091835021972656 seconds
+
+Results for Sieve of Eratosthenes with n=100000: 
+CPython - Time: 0.006265163421630859 seconds
+
+Results for Sieve of Eratosthenes with n=100000: 
+Anaconda - Time: 0.0051004886627197266 seconds
+
+Results for Sieve of Eratosthenes with n=100000: 
+Nuitka - Time: 0.00568389892578125 seconds
