@@ -5,6 +5,7 @@ import concurrent.futures
 import cProfile
 import io
 import pstats
+import matplotlib.pyplot as plt
 
 # ------------------------------- FIBONACCI FUNCTIONS -------------------------------
 
@@ -128,20 +129,75 @@ def parallelization_section():
     workers = st.slider("Select the number of parallel workers:", 1, multiprocessing.cpu_count(), 2)
 
     if st.button("Run Parallel Test"):
+        # Initialize lists to store execution times
+        execution_times = []
+        worker_counts = [1, workers]
+        
+        # First, run with one worker (serial execution)
         if task == "Fibonacci Sequence":
+            st.write("Running with 1 worker (baseline)...")
+            start = time.time()
+            result = run_with_cprofile(parallel_fibonacci, n, 1)  # Using 1 worker
+            st.write(f"Generated {len(result)} Fibonacci numbers.")
+            st.table({"Index": list(range(len(result))), "Fibonacci Numbers": result})
+        else:
+            st.write("Running with 1 worker (baseline)...")
+            start = time.time()
+            result = run_with_cprofile(parallel_sieve, n, 1)  # Using 1 worker
+            st.write(f"Number of primes found: {len(result)}")
+            st.table({"Prime Numbers": result})
+        end = time.time()
+        exec_time_1_worker = end - start
+        st.write(f"Execution Time with 1 worker: {exec_time_1_worker:.4f} seconds")
+        execution_times.append(exec_time_1_worker)
+
+        # Now, run with user-selected number of workers
+        if task == "Fibonacci Sequence":
+            st.write(f"Running with {workers} workers...")
             start = time.time()
             result = run_with_cprofile(parallel_fibonacci, n, workers)
             st.write(f"Generated {len(result)} Fibonacci numbers.")
-            # Display table of parallel Fibonacci numbers
             st.table({"Index": list(range(len(result))), "Fibonacci Numbers": result})
         else:
+            st.write(f"Running with {workers} workers...")
             start = time.time()
             result = run_with_cprofile(parallel_sieve, n, workers)
             st.write(f"Number of primes found: {len(result)}")
-            # Display table of parallel primes
             st.table({"Prime Numbers": result})
         end = time.time()
-        st.write(f"Execution Time with {workers} workers: {end - start:.4f} seconds")
+        exec_time_workers = end - start
+        st.write(f"Execution Time with {workers} workers: {exec_time_workers:.4f} seconds")
+        execution_times.append(exec_time_workers)
+
+        # Plotting the execution times comparison graph
+        fig, ax = plt.subplots()
+        ax.bar(worker_counts, execution_times, color=['blue', 'green'])
+        ax.set_xlabel('Number of Workers')
+        ax.set_ylabel('Execution Time (seconds)')
+        ax.set_title(f'Execution Time Comparison ({task})')
+        st.pyplot(fig)
+
+        # Explanation of why execution time is faster/slower with parallelization
+        st.subheader("Why the Execution Time Varies with Parallelization:")
+        if exec_time_workers < exec_time_1_worker:
+            st.write("""
+            With parallelization, the execution time is reduced because the workload is split across multiple workers, allowing them to process different parts of the problem simultaneously. 
+            This parallel processing can significantly speed up the overall execution, especially for computationally intensive tasks like Fibonacci or prime number generation.
+            However, the effectiveness of parallelization depends on the task, the number of available processors, and the nature of the algorithm being used. In some cases, overhead from task distribution and communication between workers can offset the gains from parallelism.
+            """)
+        elif exec_time_workers > exec_time_1_worker:
+            st.write("""
+            In some cases, parallelization might not lead to a speedup. This can happen if the task at hand is not sufficiently complex to benefit from parallel execution, 
+            or if the overhead of managing multiple workers exceeds the benefits of parallelism. 
+            Tasks like the Fibonacci sequence can sometimes suffer from parallel overhead due to the way they need to be divided and recombined.
+            In such cases, running with fewer workers or using a more optimized algorithm may provide better performance.
+            """)
+        else:
+            st.write("""
+            In this case, parallelization has not provided any significant speedup, and the execution time remains roughly the same. This could be due to a number of factors, 
+            such as low computational complexity of the task or excessive overhead in managing parallel tasks. 
+            It highlights the importance of choosing the right algorithm and determining whether parallelization is truly beneficial for a given problem.
+            """)
 
 # ------------------------------- BIG O ANALYSIS -------------------------------
 
