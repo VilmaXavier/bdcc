@@ -2,6 +2,9 @@ import streamlit as st
 import time
 import multiprocessing
 import concurrent.futures
+import cProfile
+import io
+import pstats
 
 # ------------------------------- FIBONACCI FUNCTIONS -------------------------------
 
@@ -72,6 +75,19 @@ def parallel_sieve(limit, workers=2):
 
 # ------------------------------- PERFORMANCE COMPARISON -------------------------------
 
+def run_with_cprofile(func, *args):
+    pr = cProfile.Profile()
+    pr.enable()
+    result = func(*args)
+    pr.disable()
+    s = io.StringIO()
+    ps = pstats.Stats(pr, stream=s).sort_stats('cumulative')
+    ps.print_stats()
+    st.text(s.getvalue())
+    return result
+
+# ------------------------------- PERFORMANCE COMPARISON -------------------------------
+
 def performance_comparison():
     st.header("Performance Comparison")
     task = st.selectbox("Choose the task:", ["Fibonacci Sequence", "Sieve of Eratosthenes"])
@@ -83,15 +99,18 @@ def performance_comparison():
 
     if st.button("Run Test"):
         st.write(f"Running {task}...")
-        start = time.time()
-
         if task == "Fibonacci Sequence":
-            result = fibonacci_dynamic(n)
+            start = time.time()
+            result = run_with_cprofile(fibonacci_dynamic, n)
             st.write(f"Fibonacci Number F({n}) = {result}")
+            # Display table of Fibonacci numbers
+            st.table({"Index": list(range(n + 1)), "Fibonacci Numbers": [fibonacci_dynamic(i) for i in range(n + 1)]})
         else:
-            result = sieve_of_eratosthenes(n)
+            start = time.time()
+            result = run_with_cprofile(sieve_of_eratosthenes, n)
             st.write(f"Number of primes up to {n}: {len(result)}")
-        
+            # Display table of primes
+            st.table({"Prime Numbers": result})
         end = time.time()
         st.write(f"Execution Time: {end - start:.4f} seconds")
 
@@ -109,15 +128,18 @@ def parallelization_section():
     workers = st.slider("Select the number of parallel workers:", 1, multiprocessing.cpu_count(), 2)
 
     if st.button("Run Parallel Test"):
-        start = time.time()
-        
         if task == "Fibonacci Sequence":
-            result = parallel_fibonacci(n, workers)
+            start = time.time()
+            result = run_with_cprofile(parallel_fibonacci, n, workers)
             st.write(f"Generated {len(result)} Fibonacci numbers.")
+            # Display table of parallel Fibonacci numbers
+            st.table({"Index": list(range(len(result))), "Fibonacci Numbers": result})
         else:
-            result = parallel_sieve(n, workers)
+            start = time.time()
+            result = run_with_cprofile(parallel_sieve, n, workers)
             st.write(f"Number of primes found: {len(result)}")
-        
+            # Display table of parallel primes
+            st.table({"Prime Numbers": result})
         end = time.time()
         st.write(f"Execution Time with {workers} workers: {end - start:.4f} seconds")
 
@@ -147,21 +169,21 @@ def big_o_analysis():
         if st.button("Run Recursive Fibonacci"):
             st.write("Running Recursive Fibonacci...")
             start = time.time()
-            fibonacci_recursive(30)  # Hardcoded smaller n for recursive test
+            run_with_cprofile(fibonacci_recursive, 30)  # Hardcoded smaller n for recursive test
             end = time.time()
             st.write(f"Execution Time (Recursive, O(2^n)): {end - start:.4f} seconds")
         
         if st.button("Run Dynamic Programming Fibonacci"):
             st.write("Running Dynamic Programming Fibonacci...")
             start = time.time()
-            fibonacci_dynamic(n)
+            run_with_cprofile(fibonacci_dynamic, n)
             end = time.time()
             st.write(f"Execution Time (Dynamic Programming, O(n)): {end - start:.4f} seconds")
     else:
         if st.button("Run Normal Sieve"):
             st.write("Running Normal Sieve...")
             start = time.time()
-            sieve_of_eratosthenes(n)
+            run_with_cprofile(sieve_of_eratosthenes, n)
             end = time.time()
             st.write(f"Execution Time (O(n log log n)): {end - start:.4f} seconds")
 
