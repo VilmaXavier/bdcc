@@ -97,6 +97,12 @@ def performance_comparison():
     Performance comparison for Fibonacci and Prime Number tasks, with profiling and image display.
     """
     st.header("Performance Comparison")
+    st.write("""
+        This section compares the performance of two algorithms: the Fibonacci sequence and the Sieve of Eratosthenes.
+        We run each function with **cProfile**, a built-in Python module, to capture profiling statistics such as execution time and function calls.
+        After running the test, we display profiling statistics to help understand how the algorithm performs across different environments (PyPy, CPython, Nuitka, Anaconda).
+        Additionally, performance comparison graphs are generated to visually compare execution times.
+    """)
     task = st.selectbox("Choose the task:", ["Fibonacci Sequence", "Sieve of Eratosthenes"])
     image_folder = Path("images")
 
@@ -153,7 +159,7 @@ def performance_comparison():
         st.subheader(f"{task} Execution Time Comparison Graph")  # Title above the graph
         graph_path = image_folder / graph_image
         if graph_path.exists():
-            st.image(str(graph_path), caption=f"{task} - Execution Time Comparison",width=600)
+            st.image(str(graph_path), caption=f"{task} - Execution Time Comparison", width=600)
         else:
             st.warning(f"Graph image not found: {graph_image}")
 
@@ -297,14 +303,14 @@ def introduction_page():
     - **Sieve of Eratosthenes** (Normal and Parallelized versions)
 
     The app provides insights into:
-    - **Performance Comparison**: Compare execution times for different versions of algorithms.
+    - **Performance Comparison**: Compare execution times for different versions of algorithms, where we utilize **cProfile** to profile and display detailed performance metrics for each execution.
     - **Parallelization**: Test the impact of parallel processing on algorithm execution time.
     - **Big O Analysis**: Understand the theoretical time complexity of the algorithms.
 
     ## Pages in this app:
 
     1. **Introduction**: A brief overview of the app and its functionalities (You are here now).
-    2. **Performance Comparison**: Compare the performance of the Fibonacci sequence and the Sieve of Eratosthenes algorithms in terms of execution time.
+    2. **Performance Comparison**: Compare the performance of the Fibonacci sequence and the Sieve of Eratosthenes algorithms in terms of execution time, with **cProfile** used for profiling.
     3. **Parallelization**: Explore how parallel execution affects performance for both algorithms and compare execution times with different numbers of workers.
     4. **Big O Analysis**: A theoretical analysis of the time complexity of the Fibonacci and Sieve of Eratosthenes algorithms, both in their normal and parallelized forms.
 
