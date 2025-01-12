@@ -205,9 +205,9 @@ def parallelization_section():
     task = st.selectbox("Choose the algorithm:", ["Fibonacci Sequence", "Sieve of Eratosthenes"])
     
     if task == "Fibonacci Sequence":
-        n = st.number_input("Enter the limit for Fibonacci:", min_value=10, max_value=10000, value=1000)
+        n = st.number_input("Enter the limit for Fibonacci:", min_value=10, max_value=15, value=10)
     else:
-        n = st.number_input("Enter the limit for Prime Numbers:", min_value=10, max_value=1000000, value=100000)
+        n = st.number_input("Enter the limit for Prime Numbers:", min_value=10, max_value=15, value=10)
 
     workers = st.slider("Select the number of parallel workers:", 1, multiprocessing.cpu_count(), 2)
 
@@ -252,7 +252,7 @@ def parallelization_section():
         st.write(f"Execution Time with {workers} workers: {exec_time_workers:.4f} seconds")
         execution_times.append(exec_time_workers)
 
-        # Plotting the execution times comparison graph
+        # Plotting the execution times comparison graph before cProfile
         fig, ax = plt.subplots()
         ax.bar(worker_counts, execution_times, color=['blue', 'green'])
         ax.set_xlabel('Number of Workers')
@@ -263,24 +263,14 @@ def parallelization_section():
         # Explanation of why execution time is faster/slower with parallelization
         st.subheader("Why the Execution Time Varies with Parallelization:")
         if exec_time_workers < exec_time_1_worker:
-            st.write("""
-            With parallelization, the execution time is reduced because the workload is split across multiple workers, allowing them to process different parts of the problem simultaneously. 
-            This parallel processing can significantly speed up the overall execution, especially for computationally intensive tasks like Fibonacci or prime number generation.
-            However, the effectiveness of parallelization depends on the task, the number of available processors, and the nature of the algorithm being used. In some cases, overhead from task distribution and communication between workers can offset the gains from parallelism.
-            """)
+            st.write("""With parallelization, the execution time is reduced because the workload is split across multiple workers, allowing them to process different parts of the problem simultaneously. This parallel processing can significantly speed up the overall execution, especially for computationally intensive tasks like Fibonacci or prime number generation. However, the effectiveness of parallelization depends on the task, the number of available processors, and the nature of the algorithm being used. In some cases, overhead from task distribution and communication between workers can offset the gains from parallelism.""")
         elif exec_time_workers > exec_time_1_worker:
-            st.write("""
-            In some cases, parallelization might not lead to a speedup. This can happen if the task at hand is not sufficiently complex to benefit from parallel execution, 
-            or if the overhead of managing multiple workers exceeds the benefits of parallelism. 
-            Tasks like the Fibonacci sequence can sometimes suffer from parallel overhead due to the way they need to be divided and recombined.
-            In such cases, running with fewer workers or using a more optimized algorithm may provide better performance.
-            """)
-        else:
-            st.write("""
-            In this case, parallelization has not provided any significant speedup, and the execution time remains roughly the same. This could be due to a number of factors, 
-            such as low computational complexity of the task or excessive overhead in managing parallel tasks. 
-            It highlights the importance of choosing the right algorithm and determining whether parallelization is truly beneficial for a given problem.
-            """)
+            st.write("""In some cases, parallelization might not lead to a speedup. This can happen if the task at hand does not lend itself well to parallel execution, or if the overhead of managing multiple workers outweighs the benefits of parallelism. For smaller tasks, the sequential execution can sometimes be more efficient than parallel execution.""")
+        
+        # Run cProfile and display the profiling results
+        st.subheader("Profiling Information:")
+        run_with_cprofile(parallel_fibonacci if task == "Fibonacci Sequence" else parallel_sieve, n, workers)
+
 
 # ------------------------------- BIG O ANALYSIS -------------------------------
 
@@ -361,8 +351,8 @@ def introduction_page():
 
     1. **Introduction**: A brief overview of the app and its functionalities (You are here now).
     2. **Performance Comparison**: Compare the performance of the Fibonacci sequence and the Sieve of Eratosthenes algorithms in terms of execution time, with **cProfile** used for profiling.
-    3. **Parallelization**: Explore how parallel execution affects performance for both algorithms and compare execution times with different numbers of workers.
-    4. **Big O Analysis**: A theoretical analysis of the time complexity of the Fibonacci and Sieve of Eratosthenes algorithms, both in their normal and parallelized forms.
+    3. **Parallelization**: Explore how parallel execution affects performance for both algorithms and compare execution times with different numbers of workers with cProfile.
+    4. **Big O Analysis**: A practical analysis of the time complexity of the Fibonacci and Sieve of Eratosthenes algorithms, both in their normal and parallelized forms.
 
     Use the sidebar to navigate between the different sections of the app. Each section is designed to give you a deeper understanding of algorithmic performance, parallelization, and time complexity.
     """)
