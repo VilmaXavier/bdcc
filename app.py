@@ -163,23 +163,10 @@ def performance_comparison():
         else:
             st.warning(f"Graph image not found: {graph_image}")
 
-            
+
         # Add explanation under the graph
-        st.subheader("Explanation of Execution Time Comparison")
-        if task == "Fibonacci Sequence":
-            st.write("""
-                The graph above compares the execution time for different Fibonacci sequence generation methods. 
-                The **Naive Recursive** approach has a high time complexity of O(2^n), making it significantly slower for larger values of `n`.
-                The **Dynamic Programming** approach, with a time complexity of O(n), improves performance by avoiding redundant calculations, making it much faster.
-                The **Parallel Fibonacci** approach divides the task into smaller chunks and processes them simultaneously, leading to reduced execution time when using more workers.
-                However, the overhead of parallelization may cause diminishing returns for smaller `n` values or when fewer workers are used.
-            """)
-        else:
-            st.write("""
-                The graph above compares the execution time for different prime number generation methods using the Sieve of Eratosthenes. 
-                The **Normal Sieve** runs sequentially and has a time complexity of O(n log log n). It is effective for smaller limits but can be slow for larger numbers.
-                The **Parallel Sieve** splits the task among multiple workers, improving execution time for larger values of `n`. However, the benefit of parallelization is more pronounced when dealing with larger datasets, and can be limited by the overhead of managing multiple processes.
-            """)
+        
+        
 
 # ------------------------------- PARALLELIZATION SECTION -------------------------------
 
@@ -308,6 +295,21 @@ def big_o_analysis():
             run_with_cprofile(sieve_of_eratosthenes, n)
             end = time.time()
             st.write(f"Execution Time (O(n log log n)): {end - start:.4f} seconds")
+
+    if task == "Fibonacci Sequence":
+            st.write("""
+                
+                The **Naive Recursive** approach has a high time complexity of O(2^n), making it significantly slower for larger values of `n`.
+                The **Dynamic Programming** approach, with a time complexity of O(n), improves performance by avoiding redundant calculations, making it much faster.
+                The **Parallel Fibonacci** approach divides the task into smaller chunks and processes them simultaneously, leading to reduced execution time when using more workers.
+                However, the overhead of parallelization may cause diminishing returns for smaller `n` values or when fewer workers are used.
+            """)
+    else:
+            st.write("""
+                 
+                The **Normal Sieve** runs sequentially and has a time complexity of O(n log log n). It is effective for smaller limits but can be slow for larger numbers.
+                The **Parallel Sieve** splits the task among multiple workers, improving execution time for larger values of `n`. However, the benefit of parallelization is more pronounced when dealing with larger datasets, and can be limited by the overhead of managing multiple processes.
+            """)
 
 # ------------------------------- INTRODUCTION PAGE -------------------------------
 
