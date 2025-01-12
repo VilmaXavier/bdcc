@@ -130,6 +130,7 @@ def performance_comparison():
     else:
         n = st.number_input("Enter the limit for Prime Numbers:", min_value=10, max_value=15, value=10)
         image_files = [
+            "sieve/sieve_implementation4.png",
             "sieve/image1.png",
             "sieve/image2.png",
             "sieve/image3.png",
@@ -345,7 +346,8 @@ def introduction_page():
     - **Fibonacci Sequence** (Recursive, Dynamic Programming, and Parallelized versions)
     - **Sieve of Eratosthenes** (Normal and Parallelized versions)
 
-   
+    
+
     ## Pages in this app:
 
     1. **Introduction**: A brief overview of the app and its functionalities (You are here now).
