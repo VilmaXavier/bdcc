@@ -153,7 +153,7 @@ def performance_comparison():
         st.subheader(f"{task} Execution Time Comparison Graph")  # Title above the graph
         graph_path = image_folder / graph_image
         if graph_path.exists():
-            st.image(str(graph_path), caption=f"{task} - Execution Time Comparison", use_column_width=True)
+            st.image(str(graph_path), caption=f"{task} - Execution Time Comparison",width=600)
         else:
             st.warning(f"Graph image not found: {graph_image}")
 
