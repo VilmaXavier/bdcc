@@ -69,7 +69,7 @@ def parallel_sieve(limit, workers=2):
 def performance_comparison():
     st.header("Performance Comparison")
     task = st.selectbox("Choose the task:", ["Fibonacci Sequence", "Sieve of Eratosthenes"])
-    image_folder = Path("bdcc/images")
+    image_folder = Path("C:/Users/vilma/OneDrive/Desktop/bdccproject/bdcc/images")
 
     if task == "Fibonacci Sequence":
         n = st.number_input("Enter the limit for Fibonacci:", min_value=10, max_value=10000, value=1000)
