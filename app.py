@@ -118,7 +118,7 @@ def performance_comparison():
 
     # Set task-specific parameters and images
     if task == "Fibonacci Sequence":
-        n = st.number_input("Enter the limit for Fibonacci:", min_value=10, max_value=10000, value=1000)
+        n = st.number_input("Enter the limit for Fibonacci:", min_value=10, max_value=15, value=10)
         image_files = [
             "fibonacci/fibonacci_implementation1.png",
             "fibonacci/fibonacci_implementation2.png",
@@ -128,7 +128,7 @@ def performance_comparison():
         ]
         graph_image = "fibonacci/fibo_graph.png"  # Graph for Fibonacci execution time comparison
     else:
-        n = st.number_input("Enter the limit for Prime Numbers:", min_value=10, max_value=1000000, value=100000)
+        n = st.number_input("Enter the limit for Prime Numbers:", min_value=10, max_value=15, value=10)
         image_files = [
             "sieve/image1.png",
             "sieve/image2.png",
