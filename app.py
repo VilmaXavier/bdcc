@@ -345,11 +345,7 @@ def introduction_page():
     - **Fibonacci Sequence** (Recursive, Dynamic Programming, and Parallelized versions)
     - **Sieve of Eratosthenes** (Normal and Parallelized versions)
 
-    The app provides insights into:
-    - **Performance Comparison**: Compare execution times for different versions of algorithms, where we utilize **cProfile** to profile and display detailed performance metrics for each execution.
-    - **Parallelization**: Test the impact of parallel processing on algorithm execution time.
-    - **Big O Analysis**: Understand the theoretical time complexity of the algorithms.
-
+   
     ## Pages in this app:
 
     1. **Introduction**: A brief overview of the app and its functionalities (You are here now).
