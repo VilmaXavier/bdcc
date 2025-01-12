@@ -131,10 +131,10 @@ def performance_comparison():
         n = st.number_input("Enter the limit for Prime Numbers:", min_value=10, max_value=15, value=10)
         image_files = [
             "sieve/sieve_implementation4.png",
-            "sieve/image1.png",
-            "sieve/image2.png",
-            "sieve/image3.png",
-            "sieve/image4.png"
+            "sieve/sieve_implementation1.png",
+            "sieve/sieve_implementation2.png",
+            "sieve/sieve_implementation3.png",
+            "sieve/sieve_implementation5.png"
         ]
         graph_image = "sieve/sieve_graph.png"  # Graph for Sieve execution time comparison
 
