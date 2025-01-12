@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-# Data for Fibonacci execution times
+# Updated data for Fibonacci execution times (n=35)
 fibo_environments = ['PyPy', 'CPython', 'Nuitka', 'Anaconda']
 fibo_times = [1.1444091796875e-05, 2.1457672119140625e-06, 4.0531158447265625e-06, 2.1457672119140625e-06]
 
