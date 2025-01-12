@@ -368,8 +368,8 @@ page = st.sidebar.radio(
 
 # Add a bold and larger font display of names and roll numbers on the sidebar
 st.sidebar.markdown("<h3 style='text-align: center; font-size: 22px; font-weight: bold;'>Created by:</h3>", unsafe_allow_html=True)
-st.sidebar.markdown("<h4 style='text-align: center; font-size: 20px; font-weight: bold;'>Alethea Tamanna         Roll No: 15,UID:225024</h4>", unsafe_allow_html=True)
-st.sidebar.markdown("<h4 style='text-align: center; font-size: 20px; font-weight: bold;'>Vilma Xavier         Roll No: 16,UID:225025</h4>", unsafe_allow_html=True)
+st.sidebar.markdown("<h4 style='text-align: center; font-size: 20px; font-weight: bold;'>Alethea Tamanna   - Roll No: 15,UID:225024</h4>", unsafe_allow_html=True)
+st.sidebar.markdown("<h4 style='text-align: center; font-size: 20px; font-weight: bold;'>Vilma Xavier  -  Roll No: 16,UID:225025</h4>", unsafe_allow_html=True)
 # Add GitHub repository link
 
 st.sidebar.markdown("[View on GitHub](https://github.com/VilmaXavier/bdcc.git)", unsafe_allow_html=True)
