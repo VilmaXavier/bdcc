@@ -173,31 +173,30 @@ def performance_comparison():
         else:
             st.warning(f"Graph image not found: {graph_image}")
 
-
-        # Add findings under the graph
         st.subheader("Findings from the Graph")
         if task == "Fibonacci Sequence":
-            st.write("""
-                From the graph, we observe the following:
-                - **PyPy** exhibits the fastest execution time due to its Just-In-Time (JIT) compilation, which optimizes iterative tasks like Fibonacci computation.
-                - **Nuitka** performs slightly slower than PyPy but still outperforms CPython because it compiles Python code into optimized C binaries.
-                - **CPython**, being the default interpreter, is versatile but slower for compute-heavy tasks like Fibonacci sequence generation.
-                - **Anaconda** shows intermediate performance, benefiting from optimized libraries but lacking the speedup of JIT or compiled binaries.
-                
-                The JIT compilation in PyPy makes it particularly suitable for the Fibonacci task, as it involves repeated calculations that benefit from runtime optimization.
-            """)
+          st.write("""
+    From the graph, we observe the following:
+    - **CPython** and **Anaconda** exhibit the fastest execution times, both recording approximately 2.14e-06 seconds. 
+      This demonstrates their efficiency in handling recursive tasks like Fibonacci sequence generation.
+    - **Nuitka** is slightly slower, with an execution time of 4.05e-06 seconds. The compilation of Python to optimized C binaries contributes to its good performance.
+    - **PyPy**, despite its JIT compilation capabilities, records the slowest time of 1.14e-05 seconds for this task. 
+      The overhead of JIT compilation for a relatively small computation task may outweigh its runtime optimizations.
+
+    Overall, CPython and Anaconda are the most efficient for this Fibonacci task due to their lightweight execution, 
+    while PyPy's performance advantage is not as pronounced in this specific case.
+       """)
         else:  # Sieve of Eratosthenes
-            st.write("""
-                From the graph, we observe the following:
-                - **PyPy** again leads in performance due to JIT compilation, which excels in loop-heavy algorithms like the Sieve of Eratosthenes.
-                - **Nuitka** performs well but is slightly slower than PyPy because of the time taken to compile and execute optimized binaries.
-                - **CPython** shows slower execution times compared to PyPy and Nuitka, as it lacks runtime or compilation-based optimizations.
-                - **Anaconda**, while faster than CPython in some cases, does not match the performance of JIT or compiled binaries.
-                
-                The efficiency of PyPy's JIT compilation in handling array-based operations makes it ideal for tasks like prime number generation using the Sieve of Eratosthenes.
-            """)
-        
-        
+           st.write("""
+    From the graph, we observe the following:
+    - **PyPy** leads in performance due to JIT compilation, which excels in loop-heavy algorithms like the Sieve of Eratosthenes.
+    - **Anaconda** performs well, with the second-fastest time of 0.0051 seconds, benefiting from optimized libraries.
+    - **Nuitka**, while slightly slower than Anaconda, demonstrates good performance with a time of 0.0057 seconds due to its compiled nature.
+    - **CPython** shows the slowest execution time of 0.0063 seconds, as it lacks runtime or compilation-based optimizations.
+
+    The efficiency of PyPy's JIT compilation in handling array-based operations makes it ideal for tasks like prime number generation using the Sieve of Eratosthenes.
+        """)
+
 
 # ------------------------------- PARALLELIZATION SECTION -------------------------------
 
