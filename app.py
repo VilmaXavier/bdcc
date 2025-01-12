@@ -110,6 +110,7 @@ def performance_comparison():
             "fibonacci/fibonacci_implementation4.png",
             "fibonacci/fibonacci_implementation5.png"
         ]
+        graph_image = "fibonacci/fibo_graph.png"  # Graph for Fibonacci execution time comparison
     else:
         n = st.number_input("Enter the limit for Prime Numbers:", min_value=10, max_value=1000000, value=100000)
         image_files = [
@@ -118,6 +119,7 @@ def performance_comparison():
             "sieve/image3.png",
             "sieve/image4.png"
         ]
+        graph_image = "sieve/sieve_graph.png"  # Graph for Sieve execution time comparison
 
     if st.button("Run Test"):
         st.write(f"Running {task}...")
@@ -147,6 +149,13 @@ def performance_comparison():
             else:
                 st.warning(f"Image not found: {img_file}")
 
+        # Display the graph comparing execution times
+        st.subheader(f"{task} Execution Time Comparison Graph")  # Title above the graph
+        graph_path = image_folder / graph_image
+        if graph_path.exists():
+            st.image(str(graph_path), caption=f"{task} - Execution Time Comparison", use_column_width=True)
+        else:
+            st.warning(f"Graph image not found: {graph_image}")
 
 # ------------------------------- PARALLELIZATION SECTION -------------------------------
 
@@ -276,18 +285,48 @@ def big_o_analysis():
             end = time.time()
             st.write(f"Execution Time (O(n log log n)): {end - start:.4f} seconds")
 
-# ------------------------------- STREAMLIT APP LAYOUT -------------------------------
+# ------------------------------- INTRODUCTION PAGE -------------------------------
 
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Introduction", "Performance Comparison", "Parallelization", "Big O Analysis"])
-
-if page == "Introduction":
+def introduction_page():
     st.title("Algorithm Performance Evaluation")
     st.markdown("""
-    This application compares the performance of different algorithms:
-    - *Fibonacci Sequence* (Recursive, Dynamic Programming, and Parallelized versions)
-    - *Sieve of Eratosthenes* (Normal and Parallelized versions)
+    **Welcome to the Algorithm Performance Evaluation App!**
+
+    This app allows you to evaluate and compare the performance of different algorithms with a focus on two primary algorithms:
+    - **Fibonacci Sequence** (Recursive, Dynamic Programming, and Parallelized versions)
+    - **Sieve of Eratosthenes** (Normal and Parallelized versions)
+
+    The app provides insights into:
+    - **Performance Comparison**: Compare execution times for different versions of algorithms.
+    - **Parallelization**: Test the impact of parallel processing on algorithm execution time.
+    - **Big O Analysis**: Understand the theoretical time complexity of the algorithms.
+
+    ## Pages in this app:
+
+    1. **Introduction**: A brief overview of the app and its functionalities (You are here now).
+    2. **Performance Comparison**: Compare the performance of the Fibonacci sequence and the Sieve of Eratosthenes algorithms in terms of execution time.
+    3. **Parallelization**: Explore how parallel execution affects performance for both algorithms and compare execution times with different numbers of workers.
+    4. **Big O Analysis**: A theoretical analysis of the time complexity of the Fibonacci and Sieve of Eratosthenes algorithms, both in their normal and parallelized forms.
+
+    Use the sidebar to navigate between the different sections of the app. Each section is designed to give you a deeper understanding of algorithmic performance, parallelization, and time complexity.
     """)
+
+# ------------------------------- MAIN APP LAYOUT -------------------------------
+
+# Sidebar with names and roll numbers alongside page navigation
+page = st.sidebar.radio(
+    "Select a Page",
+    ["Introduction", "Performance Comparison", "Parallelization", "Big O Analysis"],
+)
+
+# Add a bold and larger font display of names and roll numbers on the sidebar
+st.sidebar.markdown("<h3 style='text-align: center; font-size: 22px; font-weight: bold;'>Created by:</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<h4 style='text-align: center; font-size: 20px; font-weight: bold;'>Alethea Tamanna (Roll No: 15)</h4>", unsafe_allow_html=True)
+st.sidebar.markdown("<h4 style='text-align: center; font-size: 20px; font-weight: bold;'>Vilma Xavier (Roll No: 16)</h4>", unsafe_allow_html=True)
+
+# Display the selected page content
+if page == "Introduction":
+    introduction_page()
 elif page == "Performance Comparison":
     performance_comparison()
 elif page == "Parallelization":
