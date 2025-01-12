@@ -199,7 +199,6 @@ def performance_comparison():
 
 
 # ------------------------------- PARALLELIZATION SECTION -------------------------------
-
 def parallelization_section():
     st.header("Parallelization")
     task = st.selectbox("Choose the algorithm:", ["Fibonacci Sequence", "Sieve of Eratosthenes"])
@@ -216,17 +215,17 @@ def parallelization_section():
         execution_times = []
         worker_counts = [1, workers]
         
-        # First, run with one worker (serial execution)
+        # First, run with one worker (serial execution) without profiling
         if task == "Fibonacci Sequence":
             st.write("Running with 1 worker (baseline)...")
             start = time.time()
-            result = run_with_cprofile(parallel_fibonacci, n, 1)  # Using 1 worker
+            result = parallel_fibonacci(n, 1)  # Using 1 worker
             st.write(f"Generated {len(result)} Fibonacci numbers.")
             st.table({"Index": list(range(len(result))), "Fibonacci Numbers": result})
         else:
             st.write("Running with 1 worker (baseline)...")
             start = time.time()
-            result = run_with_cprofile(parallel_sieve, n, 1)  # Using 1 worker
+            result = parallel_sieve(n, 1)  # Using 1 worker
             st.write(f"Number of primes found: {len(result)}")
             st.table({"Prime Numbers": result})
         end = time.time()
@@ -234,17 +233,17 @@ def parallelization_section():
         st.write(f"Execution Time with 1 worker: {exec_time_1_worker:.4f} seconds")
         execution_times.append(exec_time_1_worker)
 
-        # Now, run with user-selected number of workers
+        # Now, run with user-selected number of workers without profiling
         if task == "Fibonacci Sequence":
             st.write(f"Running with {workers} workers...")
             start = time.time()
-            result = run_with_cprofile(parallel_fibonacci, n, workers)
+            result = parallel_fibonacci(n, workers)
             st.write(f"Generated {len(result)} Fibonacci numbers.")
             st.table({"Index": list(range(len(result))), "Fibonacci Numbers": result})
         else:
             st.write(f"Running with {workers} workers...")
             start = time.time()
-            result = run_with_cprofile(parallel_sieve, n, workers)
+            result = parallel_sieve(n, workers)
             st.write(f"Number of primes found: {len(result)}")
             st.table({"Prime Numbers": result})
         end = time.time()
@@ -267,10 +266,9 @@ def parallelization_section():
         elif exec_time_workers > exec_time_1_worker:
             st.write("""In some cases, parallelization might not lead to a speedup. This can happen if the task at hand does not lend itself well to parallel execution, or if the overhead of managing multiple workers outweighs the benefits of parallelism. For smaller tasks, the sequential execution can sometimes be more efficient than parallel execution.""")
         
-        # Run cProfile and display the profiling results
+        # Run cProfile once after all execution and display the profiling results
         st.subheader("Profiling Information:")
         run_with_cprofile(parallel_fibonacci if task == "Fibonacci Sequence" else parallel_sieve, n, workers)
-
 
 # ------------------------------- BIG O ANALYSIS -------------------------------
 
