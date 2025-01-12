@@ -197,7 +197,6 @@ def performance_comparison():
     The efficiency of PyPy's JIT compilation in handling array-based operations makes it ideal for tasks like prime number generation using the Sieve of Eratosthenes.
         """)
 
-
 # ------------------------------- PARALLELIZATION SECTION -------------------------------
 def parallelization_section():
     st.header("Parallelization")
@@ -265,10 +264,16 @@ def parallelization_section():
             st.write("""With parallelization, the execution time is reduced because the workload is split across multiple workers, allowing them to process different parts of the problem simultaneously. This parallel processing can significantly speed up the overall execution, especially for computationally intensive tasks like Fibonacci or prime number generation. However, the effectiveness of parallelization depends on the task, the number of available processors, and the nature of the algorithm being used. In some cases, overhead from task distribution and communication between workers can offset the gains from parallelism.""")
         elif exec_time_workers > exec_time_1_worker:
             st.write("""In some cases, parallelization might not lead to a speedup. This can happen if the task at hand does not lend itself well to parallel execution, or if the overhead of managing multiple workers outweighs the benefits of parallelism. For smaller tasks, the sequential execution can sometimes be more efficient than parallel execution.""")
-        
-        # Run cProfile once after all execution and display the profiling results
-        st.subheader("Profiling Information:")
-        run_with_cprofile(parallel_fibonacci if task == "Fibonacci Sequence" else parallel_sieve, n, workers)
+
+        # Profiling for 1 worker (baseline) before the user-defined worker profiling
+        st.subheader("Profiling Information for 1 Worker (Baseline):")
+        prof_1_worker = run_with_cprofile(parallel_fibonacci if task == "Fibonacci Sequence" else parallel_sieve, n, 1)
+        st.text(prof_1_worker)
+
+        # Profiling for user-defined workers
+        st.subheader(f"Profiling Information for {workers} Workers:")
+        prof_user_workers = run_with_cprofile(parallel_fibonacci if task == "Fibonacci Sequence" else parallel_sieve, n, workers)
+        st.text(prof_user_workers)
 
 # ------------------------------- BIG O ANALYSIS -------------------------------
 
