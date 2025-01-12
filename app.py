@@ -13,8 +13,8 @@ def fibonacci_recursive(n):
 
 def fibonacci_dynamic(n):
     fib = [0, 1]
-    for i in range(2, n+1):
-        fib.append(fib[i-1] + fib[i-2])
+    for i in range(2, n + 1):
+        fib.append(fib[i - 1] + fib[i - 2])
     return fib[n]
 
 def fib_worker_task(task_range):
@@ -107,9 +107,8 @@ def performance_comparison():
         st.write("Performance Screenshots:")
         for img_file in image_files:
             img_path = image_folder / img_file
-            st.write(f"Looking for image: {img_path}")  # Debugging output
             if img_path.exists():
-                st.image(str(img_path), caption=img_file.split('/')[-1].split('.')[0], use_column_width=True)
+                st.image(str(img_path), caption=img_file.split('/')[-1].split('.')[0], width=600)
             else:
                 st.warning(f"Image not found: {img_file}")
 
@@ -146,14 +145,14 @@ def big_o_analysis():
     task = st.selectbox("Choose the algorithm:", ["Fibonacci Sequence", "Sieve of Eratosthenes"])
     
     if task == "Fibonacci Sequence":
-        st.markdown("""        
+        st.markdown("""
         **Fibonacci Sequence Complexity**:
         - Recursive Fibonacci: **O(2^n)**
         - Dynamic Programming: **O(n)**
         - Parallelized Version: **O(n / workers)**
         """)
     else:
-        st.markdown("""        
+        st.markdown("""
         **Sieve of Eratosthenes Complexity**:
         - Normal Sieve: **O(n log log n)**
         - Parallelized Sieve: **O(n log log n / workers)**
